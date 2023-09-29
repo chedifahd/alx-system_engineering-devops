@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# connect to a server without typing a password
-Host 54.90.33.216
-IdentityFile ~/.ssh/school
-PasswordAuthentication no
+Host *
+IdentityFile ~/.ssh/holberton
+PasswordAuthentication No
+PubkeyAuthentication yes
