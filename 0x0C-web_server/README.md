@@ -1,56 +1,111 @@
-# 0x0C. Web server
+# 0X0C - Web Server
 
-## Resources:books:
-Read or watch:
-* [How the web works](https://intranet.hbtn.io/rltoken/4tRRzyyETAySzU-bgNGLSw)
-* [Nginx](https://intranet.hbtn.io/rltoken/H9OfhUnBDdxV-QQnIucMlA)
-* [How to Configure Nginx](https://intranet.hbtn.io/rltoken/wePwmjbJDgJZO7YPvffWxQ)
-* [Child process](https://intranet.hbtn.io/rltoken/V8RZRTiBQBweSGFenuQX5w)
-* [Root and sub domain](https://intranet.hbtn.io/rltoken/qkpso3mgcpv3tPUhBrZBOA)
-* [HTTP requests](https://intranet.hbtn.io/rltoken/C9s3U62JbiOAvn9WCoxKsA)
-* [HTTP redirection](https://intranet.hbtn.io/rltoken/kI4vRQ6vc45Wfbdo3UD8Lw)
-* [Not found HTTP response code](https://intranet.hbtn.io/rltoken/5UvC588x2hZR7dm6eRFPoQ)
-* [Logs files on Linux](https://intranet.hbtn.io/rltoken/bkqQ72HZVAV65G8nB503Pw)
+![](https://www.keil.com/pack/doc/mw/Network/html/http_server_block_diagram.png)
 
----
-## Learning Objectives:bulb:
-What you should learn from this project:
+Web servers consist of hardware and software that use Hypertext Transfer Protocol (HTTP) to respond to web users’ requests made via the World Wide Web.
 
-* What is the main role of a web server
-* What is a child process
-* Why web servers usually have a parent process and child processes
-* What are the main HTTP requests
+__NOTE__: In this project, some of the tasks will be graded on 2 aspects:
 
----
+1. Is your web-01 server configured according to requirements
+2. Does your answer file contain a Bash script that automatically performs commands to configure an Ubuntu machine to fit requirements (meaning without any human intervention).
 
-### [0. Transfer a file to your server](./0-transfer_file)
-* Write a Bash script that transfers a file from our client to a server:
+## Learning Objectives
 
+A good software engineer is a lazy software engineer, crazy right.
 
-### [1. Install nginx web server](./1-install_nginx_web_server)
-* 
+![](https://s3.amazonaws.com/intranet-projects-files/holbertonschool-sysadmin_devops/266/82VsYEC.jpg)
 
+__General Objectives__
+	- what is the main role of a web server
+	- What is a child process
+	- Why web servers usually have a parent process and child processes
+	- What are the main HTTP requests
 
-### [2. Setup a domain name](./2-setup_a_domain_name)
-* .TECH Domains is one of the top domain providers. They are known for the stability and quality of their DNS hosting solution. Holberton School partnered with .TECH Domains so that you can learn about DNS.
+__DNS__
+	- What DNS stands for
+	- What is DNS main role
 
+__DNS Record Types__
+	- `A Records`
+	- `CNAME`
+	- `TXT Records`
+	- `MX Records`
 
-### [3. Redirection](./3-redirection)
-* Readme:
+- How the web works
+- `Nginx`
+- How to __Configure Nginx__
+- Child process concept page
+- __Root and sub domain__
+- `HTTP` __requests__
+- `HTTP` __redirection__
+- Not found `HTTP` response code
+- Logs files on Linux
+- `HTTP/1.1` and `HTTP/2`
+- `scp` and `curl`
 
+## Requirements
 
-### [4. Not found page 404](./4-not_found_page_404)
-* Configure your Nginx server to have a custom 404 page that contains the string Ceci n'est pas une page.
+__General__
 
+- Allowed editors: `vi`, `vim`, `emacs`
+- All your files will be interpreted on `Ubuntu 16.04 LTS`
+- All your files should end with a new line
+- A `README.md file`, at the root of the folder of the project, is mandatory
+- All your Bash script __files must be executable__
+- Your Bash script must pass `Shellcheck (version 0.3.7)` without any error
+- The first line of all your Bash scripts should be exactly `#!/usr/bin/env bash`
+- The second line of all your Bash scripts should be a comment explaining what is the script doing
+- You can’t use `systemctl` for restarting a process
+- A prior knowledge to bash scripting
 
-### [5. Design a beautiful 404 page](./5-design_a_beautiful_404_page)
-* Some of my favorites:
+## Video Tutorial
 
+For stsep by step guide on how to go about the installation and configuration, you can click the __"watch video"__ link to get started
 
-### [6. Install Nginx web server (w/ Puppet)](./7-puppet_install_nginx_web_server.pp)
-* Time to practice configuring your server with Puppet! Just as you did before, we’d like you to install and configure an Nginx server using Puppet instead of Bash. To save time and effort, you should also include resources in your manifest to perform a 301 redirect when querying /redirect_me.
+- Proceed to video -> [Watch Video](https://youtu.be/5vy448hK-c4)
 
----
+## Installing Needed Packages
 
-## Author
-* **Dairo Facundo Duarte** - [dairof7](https://github.com/dairof7)
+```bash
+
+$ sudo apt-get install shellcheck -y
+
+# Check shellcheck version
+
+$ shellcheck -V
+
+# Installing nginx
+
+$ sudo apt-get install nginx -y
+
+```
+## Configuring nginx
+```bash
+
+# Configuring the default file
+
+$ sudo vi /etc/nginx/sites-available/default
+
+# Once the vi editior opens
+
+server {
+  listen 80 default_Server;
+  root /var/www/html;
+  index index.html index.htm index.nginx-debian.html;
+
+# if you have a domain name replace '_' with it
+  server_name _;
+
+# configuring error_page
+  error_page 404 404.html;
+
+  location / {
+	try_files $uri $uri/ =404;
+  }
+
+  location = /404.html {
+	internal;
+  }
+}
+
+```
